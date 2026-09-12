@@ -1,0 +1,21 @@
+# Core runtime
+urwid>=2.6.15
+PyYAML>=6.0.1
+python-dotenv>=1.0.1
+psutil>=5.9.8
+yt-dlp>=2024.12.13
+openai>=1.58.1
+
+# Local transcription and audio support
+faster-whisper>=1.1.0
+soundfile>=0.12.1
+torch>=2.2.0
+
+# Optional local TTS backends. Install the one(s) you intend to use.
+kokoro>=0.9.4
+chatterbox-tts>=0.1.1
+
+# Development
+pytest>=8.3.4
+pytest-cov>=6.0.0
+mypy>=1.13.0

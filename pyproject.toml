@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "storyforge-tui"
+version = "0.1.0"
+description = "A configurable TUI-controlled story-to-video pipeline"
+requires-python = ">=3.11"
+dependencies = ["urwid>=2.6.15", "PyYAML>=6.0.1", "python-dotenv>=1.0.1", "psutil>=5.9.8", "yt-dlp>=2024.12.13", "openai>=1.58.1"]
+
+[project.scripts]
+storyforge = "storyforge.cli:main"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+
+[tool.mypy]
+python_version = "3.11"
+ignore_missing_imports = true
