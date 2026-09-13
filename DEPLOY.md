@@ -16,15 +16,16 @@ Set `media_root` and `log_dir` in `config.yaml`, populate `downloader.urls`, sel
 
 ## systemd
 
-Copy the unit in README.md to `/etc/systemd/system/storyforge.service`, adjust `WorkingDirectory` and `ExecStart`, then:
+The repository includes a service template at `deploy/storyforge.service`. Copy it to `/etc/systemd/system/storyforge.service`, change `/opt/storyforge` in `WorkingDirectory` and `ExecStart` if needed, then enable it:
 
 ```bash
+sudo cp deploy/storyforge.service /etc/systemd/system/storyforge.service
 sudo systemctl daemon-reload
 sudo systemctl enable --now storyforge
 journalctl -u storyforge -f
 ```
 
-Use the TUI for interactive control. The CLI `run` command is intended for a supervisor. Stop workers before changing model files or removing media. Config writes are atomic, and workers claim story folders with lock directories so multiple processes do not process the same asset.
+This starts the workers automatically when the host reaches the multi-user target and restarts them after unexpected exits. Use the TUI for interactive control. The CLI `run` command is intended for a supervisor. Stop workers before changing model files or removing media. Config writes are atomic, and workers claim story folders with lock directories so multiple processes do not process the same asset.
 
 ## Provider setup
 

@@ -1,11 +1,9 @@
-# StoryForge configuration. Secret values are referenced by env-var names and live in .env.
 media_root: ./media
 log_dir: ./logs
 poll_seconds: 5
 retry:
   max_attempts: 3
   backoff_seconds: 30
-
 downloader:
   enabled: true
   urls: []
@@ -13,7 +11,6 @@ downloader:
   format: bestvideo[height<=1080]+bestaudio/best[height<=1080]
   max_video_uses: 3
   prune_over_target: true
-
 stories:
   enabled: true
   pending_target: 4
@@ -21,26 +18,26 @@ stories:
   temperature: 0.9
   max_tokens: 1800
   topics:
-    - an unexpected encounter
+  - an unexpected encounter
   prompts:
-    male: "Write a compelling short story from a male perspective about {topic}."
-    female: "Write a compelling short story from a female perspective about {topic}."
+    male: Write a compelling short story from a male perspective about {topic}.
+    female: Write a compelling short story from a female perspective about {topic}.
   providers:
     story-local:
       type: ollama
       base_url: http://localhost:11434/v1
       model: llama3.1
       api_key_env: OLLAMA_API_KEY
+    story-cloud:
+      type: openai_compatible
+      base_url: https://api.openai.com/v1
+      api_key_env: OPENAI_API_KEY
+      model: gpt-4o-mini
     story-local-openai:
       type: openai_compatible
       base_url: http://localhost:8000/v1
       model: local-model
       api_key_env: LOCAL_LLM_API_KEY
-    story-cloud:
-      type: openai_compatible
-      base_url: https://api.openai.com/v1
-      model: gpt-4o-mini
-      api_key_env: OPENAI_API_KEY
     gemini:
       type: openai_compatible
       base_url: https://generativelanguage.googleapis.com/v1beta/openai
@@ -66,10 +63,9 @@ stories:
       base_url: https://api.z.ai/api/paas/v4
       model: glm-4.5-air
       api_key_env: ZAI_API_KEY
-
 tts:
   enabled: true
-  mode: kokoro # kokoro, chatterbox, or cloud
+  mode: kokoro
   male_voice: am_michael
   female_voice: af_heart
   speed: 1.0
@@ -78,34 +74,31 @@ tts:
     tts-cloud:
       type: openai_compatible
       base_url: https://api.openai.com/v1
-      model: gpt-4o-mini-tts
       api_key_env: OPENAI_API_KEY
-
+      model: gpt-4o-mini-tts
 subtitles:
   enabled: true
-  mode: faster_whisper # faster_whisper or cloud
+  mode: faster_whisper
   model: small
   device: auto
   compute_type: int8
   language: en
-  style: Default
   providers:
     subtitle-cloud:
       type: openai_compatible
       base_url: https://api.openai.com/v1
-      model: whisper-1
       api_key_env: OPENAI_API_KEY
-
+      model: whisper-1
+  style: Default
 composer:
   enabled: true
   ffmpeg: ffmpeg
   output_width: 1080
   output_height: 1920
   fps: 30
+  subtitle_style: Default
   preset: medium
   crf: 20
-  subtitle_style: Default
-
 tui:
   refresh_seconds: 1
   log_lines: 200

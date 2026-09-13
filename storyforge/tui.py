@@ -100,7 +100,7 @@ class StoryForgeTUI:
             self.refresh()
         return urwid.ListBox(urwid.SimpleFocusListWalker([urwid.Text("Advanced YAML view (JSON is valid YAML)"), urwid.Divider(), text, urwid.Divider(), self._button("Save YAML", save)]))
 
-    def refresh(self, _: Any = None) -> None:
+    def refresh(self, _loop: Any = None, _user_data: Any = None) -> None:
         counts = stats(Path(self.config["media_root"]))
         system = get_system_stats()
         status = self.controller.status()
@@ -115,13 +115,21 @@ class StoryForgeTUI:
         controls = [urwid.Text("STORYFORGE", align="center"), urwid.Divider(), self.stats_text, urwid.Divider(), self.module_text, urwid.Divider()]
         controls += [self._button("Start all", self.start_all), self._button("Stop all", self.stop_all)]
         controls += [self._button(f"Toggle {name}", lambda _, n=name: self._toggle_module(n)) for name in self.controller.MODULES]
-        tabs = urwid.Pile([urwid.Text("Controls"), urwid.Divider(), urwid.ListBox(urwid.SimpleFocusListWalker(controls))])
+        tabs = urwid.Pile([
+            ("pack", urwid.Text("Controls")),
+            ("pack", urwid.Divider()),
+            ("weight", 1, urwid.ListBox(urwid.SimpleFocusListWalker(controls))),
+        ])
         settings = self.settings_form()
         yaml_view = self.yaml_editor()
         logs = urwid.LineBox(urwid.Filler(self.log_text, valign="top"), title="Logs")
         columns = urwid.Columns([(34, urwid.LineBox(tabs, title="Modules")), (46, urwid.LineBox(settings, title="Settings")), urwid.LineBox(yaml_view, title="YAML")], dividechars=1)
         self.body = urwid.Pile([("weight", 3, columns), ("weight", 2, logs)])
-        self.loop = urwid.MainLoop(urwid.AttrMap(self.body, "body"), {"body": "white", "selected": "standout"}, unhandled_input=self.input_handler)
+        self.loop = urwid.MainLoop(
+            urwid.AttrMap(self.body, "body"),
+            [("body", "white", "black"), ("selected", "standout", "black")],
+            unhandled_input=self.input_handler,
+        )
         self.refresh()
         self.loop.run()
 

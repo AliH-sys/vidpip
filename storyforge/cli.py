@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+import sys
 import threading
 from pathlib import Path
 
@@ -55,7 +56,17 @@ def main() -> int:
         except KeyboardInterrupt:
             controller.stop_all()
         return 0
-    from .tui import StoryForgeTUI
+    try:
+        from .tui import StoryForgeTUI
+    except ModuleNotFoundError as exc:
+        if exc.name != "urwid":
+            raise
+        print(
+            "The StoryForge TUI requires 'urwid'. Activate the project environment "
+            "and install dependencies with: pip install -r requirements.txt",
+            file=sys.stderr,
+        )
+        return 1
 
     tui = StoryForgeTUI(config, args.config)
     # configure_logging returns the handler; recreate it only when TUI is selected is not necessary,

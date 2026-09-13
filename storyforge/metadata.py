@@ -114,7 +114,8 @@ def retry_failed(root: Path, max_attempts: int) -> tuple[int, int]:
     for folder in story_files(root, "failed"):
         data = read_metadata(folder / "story.txt")
         attempts = int(data.get("retry_count", 0))
-        if attempts >= max_attempts:
+        # retry_count records failures; max_attempts includes the current attempt.
+        if attempts >= max_attempts - 1:
             shutil.rmtree(folder, ignore_errors=True)
             deleted += 1
             continue

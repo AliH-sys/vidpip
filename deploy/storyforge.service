@@ -1,0 +1,15 @@
+[Unit]
+Description=StoryForge workers
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/storyforge
+ExecStart=/opt/storyforge/.venv/bin/python -m storyforge.cli run --config /opt/storyforge/config.yaml --env /opt/storyforge/.env
+Restart=always
+RestartSec=10
+Environment=PYTHONUNBUFFERED=1
+
+[Install]
+WantedBy=multi-user.target
