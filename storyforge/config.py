@@ -53,7 +53,7 @@ DEFAULTS: dict[str, Any] = {
     "stories": {
         "enabled": True,
         "pending_target": 4,
-        "model": "story-local",
+        "model": "gemini",
         "temperature": 0.9,
         "max_tokens": 1800,
         "topics": ["an unexpected encounter"],
@@ -64,6 +64,7 @@ DEFAULTS: dict[str, Any] = {
         "providers": {
             "story-local": {"type": "ollama", "base_url": "http://localhost:11434/v1", "model": "llama3.1"},
             "story-cloud": {"type": "openai_compatible", "base_url": "https://api.openai.com/v1", "api_key_env": "OPENAI_API_KEY", "model": "gpt-4o-mini"},
+            "gemini": {"type": "openai_compatible", "base_url": "https://generativelanguage.googleapis.com/v1beta/openai", "api_key_env": "GEMINI_API_KEY", "model": "gemini-2.0-flash"},
         },
     },
     "tts": {

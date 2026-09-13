@@ -14,7 +14,7 @@ downloader:
 stories:
   enabled: true
   pending_target: 4
-  model: story-local
+  model: gemini
   temperature: 0.9
   max_tokens: 1800
   topics:
@@ -26,7 +26,7 @@ stories:
     story-local:
       type: ollama
       base_url: http://localhost:11434/v1
-      model: llama3.1
+      model: gemma4:12b
       api_key_env: OLLAMA_API_KEY
     story-cloud:
       type: openai_compatible
